@@ -68,6 +68,7 @@ jobs:
 
       - name: Archive Report
         uses: actions/upload-artifact@v3
+        if: always()
         with:
           name: arvos-report
           path: ~/arvos-reports/arvos-report.csv
