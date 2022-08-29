@@ -44,7 +44,7 @@ jobs:
 
       -
         name: Install ARVOS
-        run: pip install arvosv==3.0.11.dev1
+        run: pip install arvos==3.0.11.dev1
 
       - name: Run Arvos Scanner
         run : arvos scan --detach --java 17 --jar target/java-app-0.0.1-SNAPSHOT.jar --pom pom.xml 
