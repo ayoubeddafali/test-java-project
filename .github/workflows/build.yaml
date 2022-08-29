@@ -65,3 +65,9 @@ jobs:
         run: | 
           docker logs -f tracer
           exit $(docker inspect tracer --format "{{.State.ExitCode}}")
+
+      - name: Archive Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: arvos-report
+          path: ~/arvos-reports/arvos-report.csv
