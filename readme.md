@@ -13,3 +13,5 @@ Current endpoints are :
 - /xstream 
 - /hello
 
+
+test 
