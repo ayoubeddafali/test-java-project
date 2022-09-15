@@ -14,6 +14,3 @@ Current endpoints are :
 - /sanitize
 - /xstream 
 - /hello
-
-
-test 
