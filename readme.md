@@ -1,5 +1,7 @@
 # Spring Vulnerable App 
 
+[![CI Pipeline](https://github.com/ayoubeddafali/test-java-project/actions/workflows/build.yaml/badge.svg?branch=main)](https://github.com/ayoubeddafali/test-java-project/actions/workflows/build.yaml)
+
 A simple spring boot app that uses vulnerable dependencies for research purposes.
 
 The vulnerable dependencies being used are : 
