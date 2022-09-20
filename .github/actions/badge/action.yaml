@@ -4,7 +4,10 @@ inputs:
   github-token:  # id of input
     description: 'GITHUB TOKEN'
     required: true
-    default: 'World'
+  report-path:  # id of input
+    description: 'Report path'
+    required: true
+    default: 'arvos-report.csv'
 runs:
   using: 'node16'
   main: 'dist/index.js'
