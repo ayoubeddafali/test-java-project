@@ -10081,7 +10081,7 @@ function run() {
             result = {
                 "vulns_count": 0,
                 "symbols_count": 0,
-                "pieData": Object()
+                "risks_count": Object()
             };
             data = dataForge.readFileSync(reportPath).parseCSV().renameSeries({ "ID": "id",
                 "Vulnerability": "vulnerability",
@@ -10117,7 +10117,7 @@ function run() {
             riskGroups.forEach(function (element) {
                 scoreCountInit[element['risk']] += element['count'];
             });
-            result.pieData = scoreCountInit;
+            result['risks_count'] = scoreCountInit;
             console.log(result);
             return [2 /*return*/];
         });

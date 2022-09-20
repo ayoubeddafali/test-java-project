@@ -15,7 +15,7 @@ async function run() {
   const result = {
     "vulns_count": 0,
     "symbols_count": 0,
-    "pieData": Object()
+    "risks_count": Object()
   };
   let data = dataForge.readFileSync(reportPath).parseCSV().renameSeries(
     { "ID": "id",
@@ -61,7 +61,7 @@ async function run() {
       scoreCountInit[element['risk']] += element['count']
   });
 
-  result.pieData = scoreCountInit
+  result['risks_count'] = scoreCountInit
 
   console.log(result)
 
