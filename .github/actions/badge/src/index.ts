@@ -32,15 +32,34 @@ async function run() {
       "Stacktrace": "stacktrace"
     })
 
+  enum Risk {
+      CRITICAL = "CRITICAL",
+      HIGH = "HIGH",
+      MEDIUM= "MEDIUM",
+      LOW="LOW",
+    }
   result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
   result['symbols_count'] = data.count()
 
-  let scoreCountInit = {'CRITICAL':0, 'HIGH': 0, 'MEDIUM': 0, 'LOW':0}
-  let uniqVulns = data.distinct((vuln): any => vuln.vulnerability)
-  let arr = uniqVulns.getSeries('score').toArray()
-   
-  console.log(result)
-  
+  let scoreCountInit = {"CRITICAL":0, "HIGH": 0, "MEDIUM": 0, "LOW":0}
+
+  let riskGroups = data.groupBy((row: { vulnerability: any; }) => row.vulnerability).select(
+    (    group: { first: () => { (): any; new(): any; score: any; }; count: () => any; }) => {
+      return {
+        risk : group.first().score,
+        symbolsCount: group.count()
+      }
+    }).groupBy((r: { risk: any; }) => r.risk ).select(
+      (      group: { first: () => { (): any; new(): any; risk: any; }; count: () => any; }) => {
+        return {
+          risk: group.first().risk,
+          count: group.count()
+        }
+      }
+    ).inflate()
+
+
+    console.log(riskGroups)
 
 }
 
