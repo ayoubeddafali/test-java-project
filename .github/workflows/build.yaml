@@ -73,6 +73,9 @@ jobs:
           name: arvos-report
           path: arvos-report.csv
 
+      - name: Stop Arvos Scanner
+        run : arvos --stop
+
       - name: Badge
         uses: ./.github/actions/badge
         with:
