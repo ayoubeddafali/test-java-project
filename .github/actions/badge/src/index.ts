@@ -59,7 +59,7 @@ async function run() {
     ).inflate()
 
 
-    console.log(riskGroups)
+    console.log(riskGroups.toArray())
 
 }
 

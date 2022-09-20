@@ -10116,7 +10116,7 @@ function run() {
                     count: group.count()
                 };
             }).inflate();
-            console.log(riskGroups);
+            console.log(riskGroups.toArray());
             return [2 /*return*/];
         });
     });
