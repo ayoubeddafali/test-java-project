@@ -8,14 +8,14 @@ async function run() {
   const context = github.context;
 
   try {
-    const workflowRunArtifacts = await octokit.actions.listWorkflowRunArtifacts(
+    const workflowRunArtifacts = await octokit.rest.actions.listWorkflowRunArtifacts(
       {owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId}
     ); 
     const artifact = workflowRunArtifacts.data.artifacts.find(el => el.name == "arvos-report");
     if (!artifact) {
       return null
     } 
-    const response = await octokit.actions.downloadArtifact({
+    const response = await octokit.rest.actions.downloadArtifact({
       owner: context.repo.owner,
       repo: context.repo.repo,
       artifact_id: artifact.id,
