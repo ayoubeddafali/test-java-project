@@ -5,6 +5,7 @@ require('data-forge-fs');
 
 async function run() {
   const myToken = core.getInput('github-token');
+  const reportPath = core.getInput('report-path');
 
   const octokit = github.getOctokit(myToken)
   const context = github.context;
@@ -16,7 +17,7 @@ async function run() {
     "symbols_count": 0,
     "pieData": []
   };
-  let data = dataForge.readFileSync('arvos-report.csv').parseCSV().renameSeries(
+  let data = dataForge.readFileSync(reportPath).parseCSV().renameSeries(
     { "ID": "id",
       "Vulnerability": "vulnerability",
       "Vulnerability Detail": "detail",

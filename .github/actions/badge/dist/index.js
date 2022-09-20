@@ -10071,9 +10071,10 @@ var dataForge = __webpack_require__(337);
 __webpack_require__(301);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, octokit, context, result, data;
+        var myToken, reportPath, octokit, context, result, data;
         return __generator(this, function (_a) {
             myToken = core.getInput('github-token');
+            reportPath = core.getInput('report-path');
             octokit = github.getOctokit(myToken);
             context = github.context;
             console.log("Getting report data");
@@ -10082,7 +10083,7 @@ function run() {
                 "symbols_count": 0,
                 "pieData": []
             };
-            data = dataForge.readFileSync('arvos-report.csv').parseCSV().renameSeries({ "ID": "id",
+            data = dataForge.readFileSync(reportPath).parseCSV().renameSeries({ "ID": "id",
                 "Vulnerability": "vulnerability",
                 "Vulnerability Detail": "detail",
                 "Score": "score",
