@@ -17,7 +17,9 @@ async function run() {
     const workflowRunArtifacts = await octokit.rest.actions.listWorkflowRunArtifacts(
       {owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId}
     ); 
+    console.log(workflowRunArtifacts)
     const artifact = workflowRunArtifacts.data.artifacts.find((el: { name: string; }) => el.name == "arvos-report");
+    console.log(artifact)
     if (!artifact) {
       return null
     } 

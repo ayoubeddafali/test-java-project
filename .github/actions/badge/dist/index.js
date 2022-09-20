@@ -16627,7 +16627,9 @@ function run() {
                     return [4 /*yield*/, octokit.rest.actions.listWorkflowRunArtifacts({ owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId })];
                 case 2:
                     workflowRunArtifacts = _a.sent();
+                    console.log(workflowRunArtifacts);
                     artifact = workflowRunArtifacts.data.artifacts.find(function (el) { return el.name == "arvos-report"; });
+                    console.log(artifact);
                     if (!artifact) {
                         return [2 /*return*/, null];
                     }
