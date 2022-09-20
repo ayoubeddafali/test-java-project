@@ -35,6 +35,10 @@ async function run() {
   result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
   result['symbols_count'] = data.count()
 
+  let scoreCountInit = {'CRITICAL':0, 'HIGH': 0, 'MEDIUM': 0, 'LOW':0}
+  let uniqVulns = data.distinct((vuln): any => vuln.vulnerability)
+  let arr = uniqVulns.getSeries('score').toArray()
+   
   console.log(result)
   
 
