@@ -16690,7 +16690,7 @@ function donwloadArvosReport(octokit, context) {
                         })];
                 case 4:
                     _a.sent();
-                    return [3 /*break*/, 6];
+                    return [2 /*return*/, workflowRunArtifacts];
                 case 5:
                     console.log("ERROR >> " + response.status);
                     _a.label = 6;
@@ -16706,7 +16706,7 @@ function donwloadArvosReport(octokit, context) {
 }
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, octokit, context, data;
+        var myToken, octokit, context, t, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -16715,7 +16715,8 @@ function run() {
                     context = github.context;
                     return [4 /*yield*/, donwloadArvosReport(octokit, context)];
                 case 1:
-                    _a.sent();
+                    t = _a.sent();
+                    console.log(t);
                     console.log("Getting report data");
                     data = getReportData();
                     console.log(data);
