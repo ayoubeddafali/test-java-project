@@ -76,4 +76,4 @@ jobs:
       - name: Badge
         uses: ./.github/actions/badge
         with:
-          myToken: ${{ secrets.ACTIONS_TOKEN }}
+          github-token: ${{ secrets.MYTOKEN }}

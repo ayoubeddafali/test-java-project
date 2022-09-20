@@ -1,7 +1,7 @@
 name: 'badge'
 description: 'Arvos Badge'
 inputs:
-  myToken:  # id of input
+  github-token:  # id of input
     description: 'GITHUB TOKEN'
     required: true
     default: 'World'
