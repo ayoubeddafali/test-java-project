@@ -16612,57 +16612,20 @@ __webpack_require__(301);
 var buffer_1 = __webpack_require__(293);
 var fs = __webpack_require__(747);
 var unzip = __webpack_require__(555);
-function getReportData() {
-    var result = {
-        "vulns_count": 0,
-        "symbols_count": 0,
-        "pieData": []
-    };
-    var data = dataForge.readFileSync('/tmp/arvos-report.csv').parseCSV().renameSeries({ "ID": "id",
-        "Vulnerability": "vulnerability",
-        "Vulnerability Detail": "detail",
-        "Score": "score",
-        "Description": "description",
-        "Invoked Class": "class",
-        "Invoked Method": "method",
-        "Package name": "package",
-        "Github Repository": "repo",
-        "Package manager": "manager",
-        "Version range": "range",
-        "Stacktrace": "stacktrace"
-    });
-    result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
-    result['symbols_count'] = data.count();
-    // const sumObjectsByKey = (...objs: { CRITICAL: number; HIGH: number; MEDIUM: number; LOW: number; }[]) => {
-    //   const res = objs.reduce((a, b) => {
-    //       for (let k in b) {
-    //         if (b.hasOwnProperty(k))
-    //         a[k] = (a[k] || 0) + b[k];
-    //       }
-    //       return a;
-    //   }, {});
-    //   return res;
-    // }
-    var scoreCountInit = { 'CRITICAL': 0, 'HIGH': 0, 'MEDIUM': 0, 'LOW': 0 };
-    var uniqVulns = data.distinct(function (vuln) { return vuln.vulnerability; });
-    var arr = uniqVulns.getSeries('score').toArray();
-    var scoreCount = arr.reduce(function (acc, val) {
-        acc[val] = acc[val] === undefined ? 1 : acc[val] += 1;
-        return acc;
-    }, {});
-    // let scores = sumObjectsByKey(scoreCountInit, scoreCount )
-    // result.pieData = [scores['CRITICAL'], scores['HIGH'], scores['MEDIUM'], scores['LOW']]
-    return result;
-}
-function donwloadArvosReport(octokit, context) {
+function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var workflowRunArtifacts, artifact, response, fsStream_1, unzipper_1, e_1;
+        var myToken, octokit, context, workflowRunArtifacts, artifact, response, fsStream_1, unzipper_1, e_1, result, data;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
-                    return [4 /*yield*/, octokit.rest.actions.listWorkflowRunArtifacts({ owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId })];
+                    myToken = core.getInput('github-token');
+                    octokit = github.getOctokit(myToken);
+                    context = github.context;
+                    _a.label = 1;
                 case 1:
+                    _a.trys.push([1, 8, , 9]);
+                    return [4 /*yield*/, octokit.rest.actions.listWorkflowRunArtifacts({ owner: context.repo.owner, repo: context.repo.repo, run_id: context.runId })];
+                case 2:
                     workflowRunArtifacts = _a.sent();
                     artifact = workflowRunArtifacts.data.artifacts.find(function (el) { return el.name == "arvos-report"; });
                     if (!artifact) {
@@ -16674,12 +16637,12 @@ function donwloadArvosReport(octokit, context) {
                             artifact_id: artifact.id,
                             archive_format: "zip",
                         })];
-                case 2:
+                case 3:
                     response = _a.sent();
                     console.log(response);
-                    if (!(response.status == 200)) return [3 /*break*/, 5];
+                    if (!(response.status == 200)) return [3 /*break*/, 6];
                     return [4 /*yield*/, fs.promises.writeFile('/tmp/arvos-report.zip', buffer_1.Buffer.from(response.data))];
-                case 3:
+                case 4:
                     _a.sent();
                     fsStream_1 = fs.createReadStream('/tmp/arvos-report.zip');
                     unzipper_1 = fsStream_1.pipe(unzip.Extract({ path: '/tmp/' }));
@@ -16689,38 +16652,40 @@ function donwloadArvosReport(octokit, context) {
                             fsStream_1.on('error', endOnError);
                             unzipper_1.on('error', endOnError);
                         })];
-                case 4:
-                    _a.sent();
-                    return [3 /*break*/, 6];
                 case 5:
+                    _a.sent();
+                    return [3 /*break*/, 7];
+                case 6:
                     console.log("ERROR >> " + response.status);
-                    _a.label = 6;
-                case 6: return [2 /*return*/, workflowRunArtifacts];
-                case 7:
+                    _a.label = 7;
+                case 7: return [3 /*break*/, 9];
+                case 8:
                     e_1 = _a.sent();
                     console.error('Error getting workflow run artifacts', e_1);
-                    return [2 /*return*/, []];
-                case 8: return [2 /*return*/];
-            }
-        });
-    });
-}
-function run() {
-    return __awaiter(this, void 0, void 0, function () {
-        var myToken, octokit, context, t, data;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    myToken = core.getInput('github-token');
-                    octokit = github.getOctokit(myToken);
-                    context = github.context;
-                    return [4 /*yield*/, donwloadArvosReport(octokit, context)];
-                case 1:
-                    t = _a.sent();
-                    console.log(t);
+                    return [3 /*break*/, 9];
+                case 9:
                     console.log("Getting report data");
-                    data = getReportData();
-                    console.log(data);
+                    result = {
+                        "vulns_count": 0,
+                        "symbols_count": 0,
+                        "pieData": []
+                    };
+                    data = dataForge.readFileSync('/tmp/arvos-report.csv').parseCSV().renameSeries({ "ID": "id",
+                        "Vulnerability": "vulnerability",
+                        "Vulnerability Detail": "detail",
+                        "Score": "score",
+                        "Description": "description",
+                        "Invoked Class": "class",
+                        "Invoked Method": "method",
+                        "Package name": "package",
+                        "Github Repository": "repo",
+                        "Package manager": "manager",
+                        "Version range": "range",
+                        "Stacktrace": "stacktrace"
+                    });
+                    result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
+                    result['symbols_count'] = data.count();
+                    console.log(result);
                     return [2 /*return*/];
             }
         });
