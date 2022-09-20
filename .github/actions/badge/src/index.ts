@@ -82,7 +82,7 @@ async function donwloadArvosReport(octokit: { rest: { actions: { listWorkflowRun
         fsStream.on('error', endOnError);
         unzipper.on('error', endOnError);
       });
-
+      return workflowRunArtifacts
     } else {
         console.log(`ERROR >> ${response.status}`);
     }
@@ -99,7 +99,8 @@ async function run() {
   const octokit = github.getOctokit(myToken)
   const context = github.context;
 
-  await donwloadArvosReport(octokit, context)
+  const t = await donwloadArvosReport(octokit, context)
+  console.log(t)
   console.log("Getting report data")
   const data = getReportData()
   console.log(data)
