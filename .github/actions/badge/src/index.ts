@@ -72,8 +72,8 @@ async function donwloadArvosReport(octokit: { rest: { actions: { listWorkflowRun
       artifact_id: artifact.id,
       archive_format: "zip",
     })
+    console.log(response)
     if (response.status == 200) {
-      console.log(response.data)
       await fs.promises.writeFile('/tmp/arvos-report.zip', Buffer.from(response.data));
       const fsStream = fs.createReadStream('/tmp/arvos-report.zip')
       const unzipper = fsStream.pipe(unzip.Extract({ path: '/tmp/' }));
@@ -83,10 +83,10 @@ async function donwloadArvosReport(octokit: { rest: { actions: { listWorkflowRun
         fsStream.on('error', endOnError);
         unzipper.on('error', endOnError);
       });
-      return workflowRunArtifacts
     } else {
-        console.log(`ERROR >> ${response.status}`);
+      console.log(`ERROR >> ${response.status}`);
     }
+    return workflowRunArtifacts
   
   } catch (e) { 
     console.error('Error getting workflow run artifacts', e)

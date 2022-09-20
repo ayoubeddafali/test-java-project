@@ -16676,8 +16676,8 @@ function donwloadArvosReport(octokit, context) {
                         })];
                 case 2:
                     response = _a.sent();
+                    console.log(response);
                     if (!(response.status == 200)) return [3 /*break*/, 5];
-                    console.log(response.data);
                     return [4 /*yield*/, fs.promises.writeFile('/tmp/arvos-report.zip', buffer_1.Buffer.from(response.data))];
                 case 3:
                     _a.sent();
@@ -16691,11 +16691,11 @@ function donwloadArvosReport(octokit, context) {
                         })];
                 case 4:
                     _a.sent();
-                    return [2 /*return*/, workflowRunArtifacts];
+                    return [3 /*break*/, 6];
                 case 5:
                     console.log("ERROR >> " + response.status);
                     _a.label = 6;
-                case 6: return [3 /*break*/, 8];
+                case 6: return [2 /*return*/, workflowRunArtifacts];
                 case 7:
                     e_1 = _a.sent();
                     console.error('Error getting workflow run artifacts', e_1);
