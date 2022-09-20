@@ -73,6 +73,7 @@ async function donwloadArvosReport(octokit: { rest: { actions: { listWorkflowRun
       archive_format: "zip",
     })
     if (response.status == 200) {
+      console.log(response.data)
       await fs.promises.writeFile('/tmp/arvos-report.zip', Buffer.from(response.data));
       const fsStream = fs.createReadStream('/tmp/arvos-report.zip')
       const unzipper = fsStream.pipe(unzip.Extract({ path: '/tmp/' }));

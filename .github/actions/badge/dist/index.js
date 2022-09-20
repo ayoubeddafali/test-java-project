@@ -16677,6 +16677,7 @@ function donwloadArvosReport(octokit, context) {
                 case 2:
                     response = _a.sent();
                     if (!(response.status == 200)) return [3 /*break*/, 5];
+                    console.log(response.data);
                     return [4 /*yield*/, fs.promises.writeFile('/tmp/arvos-report.zip', buffer_1.Buffer.from(response.data))];
                 case 3:
                     _a.sent();
