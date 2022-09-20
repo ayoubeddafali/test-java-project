@@ -1,11 +1,7 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-async function run() {
-  const myToken = core.getInput('github-token');
-
-  const octokit = github.getOctokit(myToken)
-  const context = github.context;
+async function donwloadArvosReport(octokit, context) {
 
   try {
     const workflowRunArtifacts = await octokit.rest.actions.listWorkflowRunArtifacts(
@@ -40,6 +36,18 @@ async function run() {
     console.error('Error getting workflow run artifacts', e)
     return [];
   }
+}
+
+async function run() {
+  const myToken = core.getInput('github-token');
+
+  const octokit = github.getOctokit(myToken)
+  const context = github.context;
+
+  donwloadArvosReport(octokit, context).then((res) => {
+    console.log("Hello")
+    console.log(res)
+  })
 
 }
 
