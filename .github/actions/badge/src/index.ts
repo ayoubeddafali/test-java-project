@@ -15,7 +15,7 @@ async function run() {
   const result = {
     "vulns_count": 0,
     "symbols_count": 0,
-    "pieData": []
+    "pieData": Object()
   };
   let data = dataForge.readFileSync(reportPath).parseCSV().renameSeries(
     { "ID": "id",
@@ -32,16 +32,15 @@ async function run() {
       "Stacktrace": "stacktrace"
     })
 
-  enum Risk {
-      CRITICAL = "CRITICAL",
-      HIGH = "HIGH",
-      MEDIUM= "MEDIUM",
-      LOW="LOW",
-    }
+
   result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
   result['symbols_count'] = data.count()
 
-  let scoreCountInit = {"CRITICAL":0, "HIGH": 0, "MEDIUM": 0, "LOW":0}
+  let scoreCountInit = Object()
+  scoreCountInit['CRITICAL'] = 0
+  scoreCountInit['HIGH'] = 0
+  scoreCountInit['MEDIUM'] = 0
+  scoreCountInit['LOW'] = 0
 
   let riskGroups = data.groupBy((row: { vulnerability: any; }) => row.vulnerability).select(
     (    group: { first: () => { (): any; new(): any; score: any; }; count: () => any; }) => {
@@ -58,8 +57,11 @@ async function run() {
       }
     ).inflate()
 
+  riskGroups.forEach((element: { [x: string]: any; }) => {
+      scoreCountInit[element['risk']] += element['count']
+  });
 
-    console.log(riskGroups.toArray())
+  result.pieData = scoreCountInit
 
 }
 

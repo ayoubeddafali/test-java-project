@@ -10071,7 +10071,7 @@ var dataForge = __webpack_require__(337);
 __webpack_require__(301);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, reportPath, octokit, context, result, data, Risk, scoreCountInit, riskGroups;
+        var myToken, reportPath, octokit, context, result, data, scoreCountInit, riskGroups;
         return __generator(this, function (_a) {
             myToken = core.getInput('github-token');
             reportPath = core.getInput('report-path');
@@ -10081,7 +10081,7 @@ function run() {
             result = {
                 "vulns_count": 0,
                 "symbols_count": 0,
-                "pieData": []
+                "pieData": Object()
             };
             data = dataForge.readFileSync(reportPath).parseCSV().renameSeries({ "ID": "id",
                 "Vulnerability": "vulnerability",
@@ -10096,15 +10096,13 @@ function run() {
                 "Version range": "range",
                 "Stacktrace": "stacktrace"
             });
-            (function (Risk) {
-                Risk["CRITICAL"] = "CRITICAL";
-                Risk["HIGH"] = "HIGH";
-                Risk["MEDIUM"] = "MEDIUM";
-                Risk["LOW"] = "LOW";
-            })(Risk || (Risk = {}));
             result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
             result['symbols_count'] = data.count();
-            scoreCountInit = { "CRITICAL": 0, "HIGH": 0, "MEDIUM": 0, "LOW": 0 };
+            scoreCountInit = Object();
+            scoreCountInit['CRITICAL'] = 0;
+            scoreCountInit['HIGH'] = 0;
+            scoreCountInit['MEDIUM'] = 0;
+            scoreCountInit['LOW'] = 0;
             riskGroups = data.groupBy(function (row) { return row.vulnerability; }).select(function (group) {
                 return {
                     risk: group.first().score,
@@ -10116,7 +10114,10 @@ function run() {
                     count: group.count()
                 };
             }).inflate();
-            console.log(riskGroups.toArray());
+            riskGroups.forEach(function (element) {
+                scoreCountInit[element['risk']] += element['count'];
+            });
+            result.pieData = scoreCountInit;
             return [2 /*return*/];
         });
     });
