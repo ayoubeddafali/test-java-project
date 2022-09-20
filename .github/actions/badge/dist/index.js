@@ -10118,6 +10118,7 @@ function run() {
                 scoreCountInit[element['risk']] += element['count'];
             });
             result.pieData = scoreCountInit;
+            console.log(result);
             return [2 /*return*/];
         });
     });

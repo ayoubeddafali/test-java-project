@@ -63,6 +63,8 @@ async function run() {
 
   result.pieData = scoreCountInit
 
+  console.log(result)
+
 }
 
 run();
