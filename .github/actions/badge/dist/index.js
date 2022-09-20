@@ -16706,17 +16706,21 @@ function donwloadArvosReport(octokit, context) {
 }
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, octokit, context;
+        var myToken, octokit, context, data;
         return __generator(this, function (_a) {
-            myToken = core.getInput('github-token');
-            octokit = github.getOctokit(myToken);
-            context = github.context;
-            donwloadArvosReport(octokit, context).then(function () {
-                console.log("Hello");
-                var data = getReportData();
-                console.log(data);
-            });
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    myToken = core.getInput('github-token');
+                    octokit = github.getOctokit(myToken);
+                    context = github.context;
+                    return [4 /*yield*/, donwloadArvosReport(octokit, context)];
+                case 1:
+                    _a.sent();
+                    console.log("Getting report data");
+                    data = getReportData();
+                    console.log(data);
+                    return [2 /*return*/];
+            }
         });
     });
 }

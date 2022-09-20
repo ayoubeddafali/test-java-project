@@ -99,12 +99,11 @@ async function run() {
   const octokit = github.getOctokit(myToken)
   const context = github.context;
 
-  donwloadArvosReport(octokit, context).then(() => {
-    console.log("Hello")
-    const data = getReportData()
-    console.log(data)
+  await donwloadArvosReport(octokit, context)
+  console.log("Getting report data")
+  const data = getReportData()
+  console.log(data)
     
-  })
 
 }
 
