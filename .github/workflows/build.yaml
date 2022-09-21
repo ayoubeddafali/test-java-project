@@ -5,12 +5,6 @@ on:
   workflow_dispatch:
   #Trigger the workflow on push from the main branch
   push:
-    # branches:
-    #   - main
-  #     - 'feature/**'
-  # pull_request:
-  #   branches:
-  #     - main
 
 env:
   APP_PORT: 8080
@@ -19,7 +13,7 @@ jobs:
   build:
     name: Arvos Dynamic Vulnerability Checker
     #Run on Ubuntu using the latest version
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     #Job's steps
     steps:
       #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
