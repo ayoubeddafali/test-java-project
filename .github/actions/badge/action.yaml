@@ -1,13 +1,5 @@
 name: 'badge'
 description: 'Arvos Badge'
-inputs:
-  github-token:  # id of input
-    description: 'GITHUB TOKEN'
-    required: true
-  report-path:  # id of input
-    description: 'Report path'
-    required: true
-    default: 'arvos-report.csv'
 outputs:
   vulnerabilities: 
     description: 'Total number of vulnerabilities'

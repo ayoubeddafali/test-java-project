@@ -1,13 +1,12 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 const dataForge = require('data-forge');
+const os = require('os');
 require('data-forge-fs');
 
 async function run() {
-  const myToken = core.getInput('github-token');
-  const reportPath = core.getInput('report-path');
 
-  // const context = github.context;
+  const reportPath = os.homedir() + '/arvos-reports/arvos-report.csv'
 
   const result = {
     "vulns_count": 0,
@@ -62,7 +61,7 @@ async function run() {
   result['risks_count'] = scoreCount
   
   console.log(result)
-  
+
   core.setOutput("vulnerabilities", result['vulns_count']);
   core.setOutput("symbols", result['symbols_count'])
   core.setOutput("critical-count", scoreCount['CRITICAL'])

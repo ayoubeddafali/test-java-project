@@ -10068,13 +10068,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 var core = __webpack_require__(470);
 var github = __webpack_require__(469);
 var dataForge = __webpack_require__(337);
+var os = __webpack_require__(87);
 __webpack_require__(301);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, reportPath, result, data, scoreCount, riskGroups;
+        var reportPath, result, data, scoreCount, riskGroups;
         return __generator(this, function (_a) {
-            myToken = core.getInput('github-token');
-            reportPath = core.getInput('report-path');
+            reportPath = os.homedir() + '/arvos-reports/arvos-report.csv';
             result = {
                 "vulns_count": 0,
                 "symbols_count": 0,

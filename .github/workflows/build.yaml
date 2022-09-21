@@ -69,9 +69,6 @@ jobs:
         id: arvos
         if: always()
         uses: ./.github/actions/badge
-        with:
-          github-token: ${{ secrets.MYTOKEN }}
-          report-path: ~/arvos-reports/arvos-report.csv
 
       - name: Archive Report
         uses: actions/upload-artifact@v3
