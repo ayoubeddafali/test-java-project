@@ -13,7 +13,7 @@ jobs:
   build:
     name: Arvos Dynamic Vulnerability Checker
     #Run on Ubuntu using the latest version
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     #Job's steps
     steps:
       #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
@@ -35,10 +35,9 @@ jobs:
       #Package 
       - name: Package Application 
         run: mvn -U package
-      - name: kernel 
-        run: uname -r && sudo apt-get install -y linux-headers-$(uname -r)
 
-      - name: Install ARVOS
+      -
+        name: Install ARVOS
         run: pip install arvos
 
       - name: Run Arvos Scanner
@@ -61,24 +60,9 @@ jobs:
           docker logs -f tracer
           exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
-      - name: Export Arvos Results
-        id: arvos
-        if: always()
-        uses: arvos-dev/arvos-reporter-action@v0.1
-
       - name: Archive Report
         uses: actions/upload-artifact@v3
         if: always()
         with:
           name: arvos-report
           path: ~/arvos-reports/arvos-report.csv
-
-      - name: Set Arvos Badge
-        uses: RubbaBoy/BYOB@v1.3.0
-        if: always()
-        with:
-          NAME: arvos
-          LABEL: 'Arvos'
-          STATUS: "Vulnerabilities: ${{ steps.arvos.outputs.vulnerabilities }} , CRITICAL: ${{ steps.arvos.outputs.critical-count }}, HIGH: ${{ steps.arvos.outputs.high-count }}, MEDIUM: ${{ steps.arvos.outputs.medium-count }}, LOW: ${{ steps.arvos.outputs.low-count }}"
-          COLOR: FFA500
-          GITHUB_TOKEN: ${{ secrets.MYTOKEN }}
