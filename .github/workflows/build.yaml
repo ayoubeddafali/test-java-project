@@ -68,7 +68,7 @@ jobs:
       - name: Export Arvos Results
         id: arvos
         if: always()
-        uses: ./.github/actions/badge
+        uses: arvos-dev/arvos-reporter-action@v0.1
 
       - name: Archive Report
         uses: actions/upload-artifact@v3
