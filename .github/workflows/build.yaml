@@ -25,46 +25,45 @@ jobs:
       #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
       - uses: actions/checkout@v3
       #Set up JDK 17
-      # - name: Set up JDK
-      #   uses: actions/setup-java@v3
-      #   with:
-      #     distribution: 'zulu'
-      #     java-version: '17'
-      # #Set up Maven cache
-      # - name: Cache Maven dependencies
-      #   #This action allows caching dependencies and build outputs to improve workflow execution time.
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ~/.m2
-      #     key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-      #     restore-keys: ${{ runner.os }}-m2
-      # #Package 
-      # - name: Package Application 
-      #   run: mvn -U package
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+      #Set up Maven cache
+      - name: Cache Maven dependencies
+        #This action allows caching dependencies and build outputs to improve workflow execution time.
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      #Package 
+      - name: Package Application 
+        run: mvn -U package
 
-      # -
-      #   name: Install ARVOS
-      #   run: pip install arvos
+      - name: Install ARVOS
+        run: pip install arvos
 
-      # - name: Run Arvos Scanner
-      #   run : arvos scan --detach --java 17 --jar target/java-app-0.0.1-SNAPSHOT.jar --pom pom.xml --save-report csv
+      - name: Run Arvos Scanner
+        run : arvos scan --detach --java 17 --jar target/java-app-0.0.1-SNAPSHOT.jar --pom pom.xml --save-report csv
 
-      # - name: Generate Workload
-      #   uses: ./.github/actions/retry
-      #   with:
-      #     retry_wait_seconds: 15
-      #     timeout_minutes: 1
-      #     retry_on: success
-      #     max_attempts: 3
-      #     command: ./workload-generator.sh
+      - name: Generate Workload
+        uses: ./.github/actions/retry
+        with:
+          retry_wait_seconds: 15
+          timeout_minutes: 1
+          retry_on: success
+          max_attempts: 3
+          command: ./workload-generator.sh
 
-      # - name: Stop Arvos Scanner
-      #   run : arvos --stop
+      - name: Stop Arvos Scanner
+        run : arvos --stop
 
-      # - name: Produce Report
-      #   run: | 
-      #     docker logs -f tracer
-      #     exit $(docker inspect tracer --format "{{.State.ExitCode}}")
+      - name: Produce Report
+        run: | 
+          docker logs -f tracer
+          exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
       - name: Export Arvos Results
         id: arvos
