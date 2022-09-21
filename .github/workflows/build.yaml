@@ -36,7 +36,7 @@ jobs:
       - name: Package Application 
         run: mvn -U package
       - name: kernel 
-        run: uname -r && apt-get install -y linux-headers-$(uname -r)
+        run: uname -r && sudo apt-get install -y linux-headers-$(uname -r)
 
       - name: Install ARVOS
         run: pip install arvos
