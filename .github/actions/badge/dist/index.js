@@ -10071,13 +10071,10 @@ var dataForge = __webpack_require__(337);
 __webpack_require__(301);
 function run() {
     return __awaiter(this, void 0, void 0, function () {
-        var myToken, reportPath, octokit, context, result, data, scoreCountInit, riskGroups;
+        var myToken, reportPath, result, data, scoreCount, riskGroups;
         return __generator(this, function (_a) {
             myToken = core.getInput('github-token');
             reportPath = core.getInput('report-path');
-            octokit = github.getOctokit(myToken);
-            context = github.context;
-            console.log("Getting report data");
             result = {
                 "vulns_count": 0,
                 "symbols_count": 0,
@@ -10098,11 +10095,11 @@ function run() {
             });
             result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
             result['symbols_count'] = data.count();
-            scoreCountInit = Object();
-            scoreCountInit['CRITICAL'] = 0;
-            scoreCountInit['HIGH'] = 0;
-            scoreCountInit['MEDIUM'] = 0;
-            scoreCountInit['LOW'] = 0;
+            scoreCount = Object();
+            scoreCount['CRITICAL'] = 0;
+            scoreCount['HIGH'] = 0;
+            scoreCount['MEDIUM'] = 0;
+            scoreCount['LOW'] = 0;
             riskGroups = data.groupBy(function (row) { return row.vulnerability; }).select(function (group) {
                 return {
                     risk: group.first().score,
@@ -10115,9 +10112,15 @@ function run() {
                 };
             }).inflate();
             riskGroups.forEach(function (element) {
-                scoreCountInit[element['risk']] += element['count'];
+                scoreCount[element['risk']] += element['count'];
             });
-            result['risks_count'] = scoreCountInit;
+            result['risks_count'] = scoreCount;
+            core.setOutput("vulnerabilities", result['vulns_count']);
+            core.setOutput("symbols", result['symbols_count']);
+            core.setOutput("critical-count", scoreCount['CRITICAL']);
+            core.setOutput("high-count", scoreCount['HIGH']);
+            core.setOutput("medium-count", scoreCount['MEDIUM']);
+            core.setOutput("low-count", scoreCount['LOW']);
             console.log(result);
             return [2 /*return*/];
         });

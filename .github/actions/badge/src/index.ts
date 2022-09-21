@@ -7,16 +7,14 @@ async function run() {
   const myToken = core.getInput('github-token');
   const reportPath = core.getInput('report-path');
 
-  const octokit = github.getOctokit(myToken)
-  const context = github.context;
-
-  console.log("Getting report data")
+  // const context = github.context;
 
   const result = {
     "vulns_count": 0,
     "symbols_count": 0,
     "risks_count": Object()
   };
+
   let data = dataForge.readFileSync(reportPath).parseCSV().renameSeries(
     { "ID": "id",
       "Vulnerability": "vulnerability",
@@ -36,11 +34,11 @@ async function run() {
   result['vulns_count'] = data.getSeries('vulnerability').distinct().count();
   result['symbols_count'] = data.count()
 
-  let scoreCountInit = Object()
-  scoreCountInit['CRITICAL'] = 0
-  scoreCountInit['HIGH'] = 0
-  scoreCountInit['MEDIUM'] = 0
-  scoreCountInit['LOW'] = 0
+  let scoreCount = Object()
+  scoreCount['CRITICAL'] = 0
+  scoreCount['HIGH'] = 0
+  scoreCount['MEDIUM'] = 0
+  scoreCount['LOW'] = 0
 
   let riskGroups = data.groupBy((row: { vulnerability: any; }) => row.vulnerability).select(
     (    group: { first: () => { (): any; new(): any; score: any; }; count: () => any; }) => {
@@ -58,13 +56,19 @@ async function run() {
     ).inflate()
 
   riskGroups.forEach((element: { [x: string]: any; }) => {
-      scoreCountInit[element['risk']] += element['count']
+      scoreCount[element['risk']] += element['count']
   });
 
-  result['risks_count'] = scoreCountInit
+  result['risks_count'] = scoreCount
+
+  core.setOutput("vulnerabilities", result['vulns_count']);
+  core.setOutput("symbols", result['symbols_count'])
+  core.setOutput("critical-count", scoreCount['CRITICAL'])
+  core.setOutput("high-count", scoreCount['HIGH'])
+  core.setOutput("medium-count", scoreCount['MEDIUM'])
+  core.setOutput("low-count", scoreCount['LOW'])
 
   console.log(result)
-
 }
 
 run();
