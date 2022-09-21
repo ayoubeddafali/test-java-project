@@ -66,16 +66,18 @@ jobs:
       #     docker logs -f tracer
       #     exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
-      - name: Badge
+      - name: Export Arvos Results
+        id: arvos
         uses: ./.github/actions/badge
         with:
           github-token: ${{ secrets.MYTOKEN }}
           report-path: arvos-report.csv
-      - name: Time badge
+
+      - name: Set Arvos Badge
         uses: RubbaBoy/BYOB@v1.3.0
         with:
-          NAME: time
-          LABEL: 'CRITICAL'
-          STATUS: '5'
-          COLOR: 00EEFF
+          NAME: arvos
+          LABEL: 'Arvos'
+          STATUS: "Vulnerabilities: ${{ steps.arvos.outputs.vulnerabilites }} , CRITICAL: ${{ steps.arvos.outputs.critical-count }}, HIGH: ${{ steps.arvos.outputs.high-count }}, MEDIUM: ${{ steps.arvos.outputs.medium-count }}, LOW: ${{ steps.arvos.outputs.low-count }}"
+          COLOR: FFA500
           GITHUB_TOKEN: ${{ secrets.MYTOKEN }}

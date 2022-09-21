@@ -60,7 +60,9 @@ async function run() {
   });
 
   result['risks_count'] = scoreCount
-
+  
+  console.log(result)
+  
   core.setOutput("vulnerabilities", result['vulns_count']);
   core.setOutput("symbols", result['symbols_count'])
   core.setOutput("critical-count", scoreCount['CRITICAL'])
@@ -68,7 +70,6 @@ async function run() {
   core.setOutput("medium-count", scoreCount['MEDIUM'])
   core.setOutput("low-count", scoreCount['LOW'])
 
-  console.log(result)
 }
 
 run();
