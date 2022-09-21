@@ -65,13 +65,6 @@ jobs:
           docker logs -f tracer
           exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
-      - name: Archive Report
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: arvos-report
-          path: ~/arvos-reports/arvos-report.csv
-
       - name: Export Arvos Results
         id: arvos
         if: always()
@@ -79,6 +72,13 @@ jobs:
         with:
           github-token: ${{ secrets.MYTOKEN }}
           report-path: ~/arvos-reports/arvos-report.csv
+
+      - name: Archive Report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: arvos-report
+          path: ~/arvos-reports/arvos-report.csv
 
       - name: Set Arvos Badge
         uses: RubbaBoy/BYOB@v1.3.0
