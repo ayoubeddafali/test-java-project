@@ -78,6 +78,6 @@ jobs:
         with:
           NAME: arvos
           LABEL: 'Arvos'
-          STATUS: "Vulnerabilities: ${{ steps.arvos.outputs.vulnerabilites }} , CRITICAL: ${{ steps.arvos.outputs.critical-count }}, HIGH: ${{ steps.arvos.outputs.high-count }}, MEDIUM: ${{ steps.arvos.outputs.medium-count }}, LOW: ${{ steps.arvos.outputs.low-count }}"
+          STATUS: "Vulnerabilities: ${{ steps.arvos.outputs.vulnerabilities }} , CRITICAL: ${{ steps.arvos.outputs.critical-count }}, HIGH: ${{ steps.arvos.outputs.high-count }}, MEDIUM: ${{ steps.arvos.outputs.medium-count }}, LOW: ${{ steps.arvos.outputs.low-count }}"
           COLOR: FFA500
           GITHUB_TOKEN: ${{ secrets.MYTOKEN }}

@@ -9,7 +9,7 @@ inputs:
     required: true
     default: 'arvos-report.csv'
 outputs:
-  vulnerabilites: 
+  vulnerabilities: 
     description: 'Total number of vulnerabilities'
   symbols:
     description: 'Total number of symbols'
