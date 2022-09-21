@@ -74,6 +74,7 @@ jobs:
 
       - name: Export Arvos Results
         id: arvos
+        if: always()
         uses: ./.github/actions/badge
         with:
           github-token: ${{ secrets.MYTOKEN }}
@@ -81,6 +82,7 @@ jobs:
 
       - name: Set Arvos Badge
         uses: RubbaBoy/BYOB@v1.3.0
+        if: always()
         with:
           NAME: arvos
           LABEL: 'Arvos'
