@@ -35,7 +35,9 @@ jobs:
       #Package 
       - name: Package Application 
         run: mvn -U package
-
+      - name: kernel 
+        run: apt-get install -y linux-headers-$(uname -r)
+        
       - name: Install ARVOS
         run: pip install arvos
 
