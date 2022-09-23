@@ -13,7 +13,7 @@ jobs:
   build:
     name: Arvos Dynamic Vulnerability Checker
     #Run on Ubuntu using the latest version
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     #Job's steps
     steps:
       #Check-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
