@@ -57,9 +57,8 @@ jobs:
 
       - name: Produce Report
         run: | 
-          ARVOS_EXIT_CODE=$(docker wait tracer)
           docker logs -f tracer
-          exit $ARVOS_EXIT_CODE
+          exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
       - name: Archive Report
         uses: actions/upload-artifact@v3
