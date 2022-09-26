@@ -38,7 +38,7 @@ jobs:
 
       -
         name: Install ARVOS
-        run: pip install arvos
+        run: pip install arvos==3.0.12.dev1
 
       - name: Run Arvos Scanner
         run : arvos scan --detach --java 17 --jar target/java-app-0.0.1-SNAPSHOT.jar --pom pom.xml --save-report csv
@@ -57,7 +57,8 @@ jobs:
 
       - name: Produce Report
         run: | 
-          docker logs -f tracer
+          docker wait tracer
+          docker logs tracer
           exit $(docker inspect tracer --format "{{.State.ExitCode}}")
 
       - name: Archive Report
