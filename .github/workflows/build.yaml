@@ -58,7 +58,7 @@ jobs:
       - name: Produce Report
         run: | 
           ARVOS_EXIT_CODE=$(docker wait tracer)
-          docker logs tracer | wc -l
+          docker logs -f tracer
           exit $ARVOS_EXIT_CODE
 
       - name: Archive Report
